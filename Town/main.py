@@ -38,7 +38,7 @@ camera = pygame.Vector2((0, 0))
 print(pygame.display.get_surface())
 
 while running:
-
+    #Color of the screen, RGB
 
     camera_move = pygame.Vector2()
     # backgroung
