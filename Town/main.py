@@ -19,9 +19,9 @@ sprites = {
 # pygame.image.load("pics/silo_house.png"),
 # pygame.image.load("pics/well.png"),
 # pygame.image.load("pics/treehouse.png")
-"tree_strom ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
+"tree_strom": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
 "black_house" : pygame.transform.scale_by(pygame.image.load("pics/black_house.png"),5.8),
-"bridge" : pygame.transform.scale_by(pygame.image.load("pics/bridge.png"),3),
+"bridge" : pygame.transform.scale_by(pygame.image.load("pics/bridge.png"),5.8),
 "grey_house":pygame.transform.scale_by(pygame.image.load("pics/grey_house.png"),5.8),
 "mush_house": pygame.transform.scale_by(pygame.image.load("pics/mush_house.png"),5.8),
 "pink_house":pygame.transform.scale_by(pygame.image.load("pics/pink_house.png"),5.8),
