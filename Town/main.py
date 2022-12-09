@@ -38,14 +38,24 @@ camera = pygame.Vector2((0, 0))
 print(pygame.display.get_surface())
 
 while running:
-    #Color of the screen, RGB
+    # Color of the screen, RGB
 
     camera_move = pygame.Vector2()
     # backgroung
     screen.blit(background, (camera))
     for k,v in sprites.items():
         if k == "grey_house":
-            screen.blit(v,(camera + (370 *5.8 , 158 * 5.8)))
+            screen.blit(v,(camera + (2146 , 916.4)))
+        if k == "pink_house":
+            screen.blit(v,(camera+(1345.6 , 1183)))
+        if k == "silo_house":
+            screen.blit(v,(camera+(261 , 446.6)))
+        if k == "treehouse":
+            screen.blit(v,(camera+(127.6, 2088)))
+        if k == "mush_house":
+            screen.blit(v,(camera+(1502.2, 0)))
+        if k == "black_house":
+            screen.blit(v,(camera+(1769, 2076.4)))
     print(camera)
     event = pygame.event.get()
     for e in event:
