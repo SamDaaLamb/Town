@@ -7,6 +7,7 @@ screen = pygame.display.set_mode((1000, 600))
 running = True
 
 background = pygame.transform.scale(background,(2900,2900))
+
 sprites = {
 # pygame.image.load("tree_storm.png"),
 # pygame.image.load("pics/black_house.png"),
@@ -18,7 +19,7 @@ sprites = {
 # pygame.image.load("pics/silo_house.png"),
 # pygame.image.load("pics/well.png"),
 # pygame.image.load("pics/treehouse.png")
-"tree_storm ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
+"tree_strom ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
 "black_house" : pygame.transform.scale_by(pygame.image.load("pics/black_house.png"),5.8),
 "bridge" : pygame.transform.scale_by(pygame.image.load("pics/bridge.png"),3),
 "grey_house":pygame.transform.scale_by(pygame.image.load("pics/grey_house.png"),5.8),
@@ -30,6 +31,24 @@ sprites = {
 "treehouse":pygame.transform.scale_by(pygame.image.load("pics/treehouse.png"),5.8)
 # # pygame.image.load("bush.png"),
 # pygame.image.load("tree.png"),
+}
+
+player = {
+"fwd-1":pygame.transform.scale_by(pygame.image.load("fwd-1.png"),5.8),
+"fwd-2":pygame.transform.scale_by(pygame.image.load("fwd-2.png"),5.8),
+"fwd-3":pygame.transform.scale_by(pygame.image.load("fwd-3.png"),5.8),
+
+"bwd-1":pygame.transform.scale_by(pygame.image.load("bwd-1.png"),5.8),
+"bwd-2":pygame.transform.scale_by(pygame.image.load("bwd-2.png"),5.8),
+"bwd-3":pygame.transform.scale_by(pygame.image.load("bwd-3.png"),5.8),
+
+"right-1":pygame.transform.scale_by(pygame.image.load("right-1.png"),5.8),
+"right-2":pygame.transform.scale_by(pygame.image.load("right-2.png"),5.8),
+"right-3":pygame.transform.scale_by(pygame.image.load("right-3.png"),5.8),
+
+"left-1":pygame.transform.scale_by(pygame.image.load("left-1.png"),5.8),
+"left-2":pygame.transform.scale_by(pygame.image.load("left-2.png"),5.8),
+"left-3":pygame.transform.scale_by(pygame.image.load("left-3.png"),5.8)
 }
 
 
@@ -56,12 +75,6 @@ while running:
             screen.blit(v,(camera+(1502.2, 0)))
         if k == "black_house":
             screen.blit(v,(camera+(1769, 2076.4)))
-        if k == "tree_storm":
-            screem.blit(v,(camera+(0,0)))
-        if k == "bridge":
-            screen.blit(v,(camera+(2146,1415.2)))
-            
-            
     print(camera)
     event = pygame.event.get()
     for e in event:
@@ -71,13 +84,22 @@ while running:
 
 
     pressed = pygame.key.get_pressed()
+
+    if not any(pressed):
+        screen.blit(player.get("fwd-2"), ((500, 300)))
+
+    # Character
+    #     if pressed[pygame.]
+    #     if pressed[pygame.K_UP] or pressed[pygame.K_w]:
     if camera[1] != 0:
-        if pressed[pygame.K_UP] or pressed[pygame.K_w] : camera_move += (0, 10)
+        if pressed[pygame.K_UP] or pressed[pygame.K_w] : camera_move += (0, 5)
+
+
     if camera[0] != 0:
-        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: camera_move += (10, 0)
+        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: camera_move += (5, 0)
     if camera[1] != -2300:
-        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: camera_move += (0, -10)
+        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: camera_move += (0, -5)
     if camera[0] != -1890:
-        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: camera_move += (-10, 0)
+        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: camera_move += (-5, 0)
     camera += camera_move
     pygame.display.update()
