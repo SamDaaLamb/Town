@@ -18,16 +18,16 @@ sprites = {
 # pygame.image.load("pics/silo_house.png"),
 # pygame.image.load("pics/well.png"),
 # pygame.image.load("pics/treehouse.png")
-"tree_strom ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),3),
-"black_house" : pygame.transform.scale_by(pygame.image.load("pics/black_house.png"),3),
+"tree_strom ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
+"black_house" : pygame.transform.scale_by(pygame.image.load("pics/black_house.png"),5.8),
 "bridge" : pygame.transform.scale_by(pygame.image.load("pics/bridge.png"),3),
-"grey_house":pygame.transform.scale_by(pygame.image.load("pics/grey_house.png"),3),
-"mush_house": pygame.transform.scale_by(pygame.image.load("pics/mush_house.png"),3),
-"pink_house":pygame.transform.scale_by(pygame.image.load("pics/pink_house.png"),3),
-"sign" : pygame.transform.scale_by(pygame.image.load("pics/sign.png"),3),
-"silo_house" : pygame.transform.scale_by(pygame.image.load("pics/silo_house.png"),3),
-"well":pygame.transform.scale_by(pygame.image.load("pics/well.png"),3),
-"treehouse":pygame.transform.scale_by(pygame.image.load("pics/treehouse.png"),3)
+"grey_house":pygame.transform.scale_by(pygame.image.load("pics/grey_house.png"),5.8),
+"mush_house": pygame.transform.scale_by(pygame.image.load("pics/mush_house.png"),5.8),
+"pink_house":pygame.transform.scale_by(pygame.image.load("pics/pink_house.png"),5.8),
+"sign" : pygame.transform.scale_by(pygame.image.load("pics/sign.png"),5.8),
+"silo_house" : pygame.transform.scale_by(pygame.image.load("pics/silo_house.png"),5.8),
+"well":pygame.transform.scale_by(pygame.image.load("pics/well.png"),5.8),
+"treehouse":pygame.transform.scale_by(pygame.image.load("pics/treehouse.png"),5.8)
 # # pygame.image.load("bush.png"),
 # pygame.image.load("tree.png"),
 }
