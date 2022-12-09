@@ -18,7 +18,7 @@ sprites = {
 # pygame.image.load("pics/silo_house.png"),
 # pygame.image.load("pics/well.png"),
 # pygame.image.load("pics/treehouse.png")
-"tree_strom ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
+"tree_storm ": pygame.transform.scale_by(pygame.image.load("tree_storm.png"),5.8),
 "black_house" : pygame.transform.scale_by(pygame.image.load("pics/black_house.png"),5.8),
 "bridge" : pygame.transform.scale_by(pygame.image.load("pics/bridge.png"),3),
 "grey_house":pygame.transform.scale_by(pygame.image.load("pics/grey_house.png"),5.8),
@@ -56,6 +56,12 @@ while running:
             screen.blit(v,(camera+(1502.2, 0)))
         if k == "black_house":
             screen.blit(v,(camera+(1769, 2076.4)))
+        if k == "tree_storm":
+            screem.blit(v,(camera+(0,0)))
+        if k == "bridge":
+            screen.blit(v,(camera+(2146,1415.2)))
+            
+            
     print(camera)
     event = pygame.event.get()
     for e in event:
