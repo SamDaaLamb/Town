@@ -104,11 +104,10 @@ camera = pygame.Vector2((0, 0))
 offset = pygame.Vector2((0, 0))
 
 print(pygame.display.get_surface())
-x = 0
+
 running = True
 while running:
-    x += 1
-    print(x)
+
     # Color of the screen, RGB
 
     # Camera vector
@@ -125,25 +124,30 @@ while running:
 
     # background
     screen.blit(background, (camera))
-    for k,v in sprites.items():
-        if k == "tree_strom":
-            screen.blit(v,(camera ))
-        if k == "grey_house":
-            screen.blit(v,(camera + (2146 , 916.4)))
-        if k == "pink_house":
-            screen.blit(v,(camera+(1345.6 , 1183)))
-        if k == "silo_house":
-            screen.blit(v,(camera+(261 , 446.6)))
-        if k == "treehouse":
-            screen.blit(v,(camera+(127.6, 2088)))
-        if k == "mush_house":
-            screen.blit(v,(camera+(1502.2, 0)))
-        if k == "black_house":
-            screen.blit(v,(camera+(1769, 2076.4)))
-        if k == "bridge":
-            screen.blit(v,(camera+(2151.8, 1432.6)))
-        if k == "sign":
-            screen.blit(v,(camera+(2476.6, 203)))
+
+
+    screen.blit(screen,screen.blit(sprites.get("tree_strom"),(camera)))
+    screen.blit(screen,screen.blit(sprites.get("grey_house"), (camera + (2146 , 916.4))))
+    #
+    screen.blit(screen,screen.blit(sprites.get("pink_house"),camera+(1345.6 , 1183)))
+
+    screen.blit(screen,screen.blit(sprites.get("silo_house"),camera+(261 , 446.6)))
+
+    screen.blit(screen,screen.blit(sprites.get("treehouse"),camera+(127.6, 2088)))
+
+    screen.blit(screen,screen.blit(sprites.get("mush_house"),camera+(1502.2, 0)))
+
+    screen.blit(screen,screen.blit(sprites.get("black_house"),camera+(1769, 2076.4)))
+
+    screen.blit(screen,screen.blit(sprites.get("bridge"),camera+(2151.8, 1432.6)))
+    screen.blit(screen,screen.blit(sprites.get("sign"),camera+(2476.6, 203)))
+    screen.blit(screen,screen.blit(sprites.get("well"),camera+(1815.4 , 17.4)))
+    screen.blit(screen,screen.blit(sprites.get("well"),camera+(2279.4 , 1983.6)))
+    screen.blit(screen,screen.blit(sprites.get("well"),camera+(2476.6, 203)))
+
+
+
+
 
     event = pygame.event.get()
     for e in event:
