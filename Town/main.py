@@ -5,11 +5,23 @@ pygame.display.init()
 #the size of the screen(1200,600)
 screen = pygame.display.set_mode((1000, 600))
 
-# Game name
-pygame.display.set_caption("Town")
-
-
-
+#variables for inventory
+fivedollar = False
+apple = False
+blueberries = False
+bra = False
+fish = False
+fishingrod = False
+gun = False
+jewelone = False
+jeweltwo = False
+jewelthree = False
+keyone = False
+keytwo = False
+ladder = False
+loveletter = False
+magicpotion = False
+prettyflower = False
 
 # background
 background = pygame.transform.scale(background,(2900,2900))
@@ -50,7 +62,25 @@ sprites = {
 "well":pygame.transform.scale_by(pygame.image.load("pics/well.png"),5.8),
 "treehouse":pygame.transform.scale_by(pygame.image.load("pics/treehouse.png"),5.8),
 "f_stand":pygame.transform.scale_by(pygame.image.load("fwd-4.png"),5.8),
-"b_stand":pygame.transform.scale_by(pygame.image.load("bwd-1.png"),5.8)
+"b_stand":pygame.transform.scale_by(pygame.image.load("bwd-1.png"),5.8),
+"5dollar" : pygame.transform.scale_by(pygame.image.load("pics/5dollar.png"), 3.5),
+"apple" : pygame.transform.scale_by(pygame.image.load("pics/apple.png"), 3.5),
+"blueberries" : pygame.transform.scale_by(pygame.image.load("pics/blueberries.png"), 3.5),
+"bra" : pygame.transform.scale_by(pygame.image.load("pics/bra.png"), 3.5),
+"fish" : pygame.transform.scale_by(pygame.image.load("pics/fish.png"), 3.5),
+"fishingrod" : pygame.transform.scale_by(pygame.image.load("pics/fishingrod.png"), 3.5),
+"gun" : pygame.transform.scale_by(pygame.image.load("pics/gun.png"), 3.5),
+"jewel1" : pygame.transform.scale_by(pygame.image.load("pics/jewel.png"), 3.5),
+"jewel2" : pygame.transform.scale_by(pygame.image.load("pics/jewel2.png"), 3.5),
+"jewel3" : pygame.transform.scale_by(pygame.image.load("pics/jewel3.png"), 3.5),
+"key1" : pygame.transform.scale_by(pygame.image.load("pics/key1.png"), 3.5),
+"key2" : pygame.transform.scale_by(pygame.image.load("pics/key2.png"), 3.5),
+"ladder" : pygame.transform.scale_by(pygame.image.load("pics/ladder.png"), 3.5),
+"loveletter" : pygame.transform.scale_by(pygame.image.load("pics/loveletter.png"), 3.5),
+"magicpotion" : pygame.transform.scale_by(pygame.image.load("pics/magicpotion.png"), 3.5),
+"prettyflower" : pygame.transform.scale_by(pygame.image.load("pics/prettyflower.png"), 3.5),
+"inventory" : pygame.transform.scale_by(pygame.image.load("pics/inventory.png"), 3.5),
+"towntitle" : pygame.transform.scale_by(pygame.image.load("pics/towntitle.png"), 5.6),
 # # pygame.image.load("bush.png"),
 # pygame.image.load("tree.png"),
 }
@@ -110,6 +140,23 @@ offset = pygame.Vector2((0, 0))
 
 print(pygame.display.get_surface())
 
+menuAtivo = True
+title = True
+def startscreen(sprites_variable):
+    while title:
+        screen.blit(sprites.get("towntitle"), (0,0))
+        while menuAtivo:
+            for evento in pygame.event.get():
+                print(evento)
+                if evento.type == pygame.MOUSEBUTTONDOWN:
+                    if pygame.mouse.get_pos() >= (335, 415):
+                        if pygame.mouse.get_pos() <= (683, 515):
+                            return
+
+            pygame.display.update()
+
+startscreen(sprites)
+
 running = True
 while running:
 
@@ -122,6 +169,7 @@ while running:
     if f_step >= len(fwd_ani):
 
         f_step = -1
+
 
 
 
@@ -142,9 +190,43 @@ while running:
     screen.blit(sprites.get("well"),camera+(1815.4 , 17.4))
     screen.blit(sprites.get("well"),camera+(2279.4 , 1983.6))
     screen.blit(sprites.get("well"),camera+(1763.2, 933.8))
+    screen.blit(sprites.get("inventory"), (324, 506))
 
 
-
+    if blueberries:
+        screen.blit(sprites.get("blueberries"), (324, 506))
+    if fivedollar:
+        screen.blit(sprites.get("5dollar"), (324, 506))
+    if gun:
+        screen.blit(sprites.get("gun"), (324, 506))
+    if apple:
+        screen.blit(sprites.get("apple"), (644, 506))
+    if loveletter:
+        screen.blit(sprites.get("loveletter"), (564, 506))
+    if magicpotion:
+        screen.blit(sprites.get("magicpotion"), (564, 506))
+    if keytwo:
+        screen.blit(sprites.get("key2"), (564, 506))
+    if fishingrod:
+        screen.blit(sprites.get("fishingrod"), (404, 506))
+    if fish:
+        screen.blit(sprites.get("fish"), (404, 506))
+    if ladder:
+        screen.blit(sprites.get("ladder"), (404, 506))
+    if jewelone:
+        screen.blit(sprites.get("jewel1"), (404, 506))
+    if jeweltwo:
+        screen.blit(sprites.get("jewel2"), (484, 506))
+    if jewelthree:
+        screen.blit(sprites.get("jewel3"), (644, 506))
+    if keyone:
+        screen.blit(sprites.get("key1"), (484, 506))
+    if keytwo:
+        screen.blit(sprites.get("key2"), (564, 506))
+    if ladder:
+        screen.blit(sprites.get("ladder"), (404, 506))
+    if prettyflower:
+        screen.blit(sprites.get("prettyflower"), (564, 506))
 
 
     event = pygame.event.get()
@@ -204,12 +286,6 @@ while running:
         draw_r = right_ani[f_step]
         R_last = True
         screen.blit(draw_r, (500, 300)+offset)
-    elif pressed[pygame.K_y]:
-        handle = open("High_score.txt")
-        whandle = open("High_score.txt", "a")
-        whandle.write(str(camera + offset) + "\n RIVER")
-        whandle.close()
-
     # Character
     #     if pressed[pygame.]
     #     if pressed[pygame.K_UP] or pressed[pygame.K_w]:
