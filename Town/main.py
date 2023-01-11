@@ -352,7 +352,7 @@ while running:
         if offset[0] != 0:
             if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: offset += (5, 0)
 
-
+    camera_move = camera_move + boarder_control()
     camera += camera_move
 
     print(offset)
