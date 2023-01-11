@@ -37,7 +37,9 @@ D_last = False
 R_last = False
 
 
-
+boarders = {
+"silo_house":[[-330.0,-35.0],[-530.0,-400.0]]
+}
 
 
 sprites = {
@@ -142,6 +144,8 @@ print(pygame.display.get_surface())
 
 menuAtivo = True
 title = True
+
+# Functions
 def startscreen(sprites_variable):
     while title:
         screen.blit(sprites.get("towntitle"), (0,0))
@@ -155,6 +159,36 @@ def startscreen(sprites_variable):
 
             pygame.display.update()
 
+def boarder_control():
+    total_cam = camera+(-offset)
+    print((total_cam[0],total_cam[1]))
+
+
+    for key in boarders:
+        if not boarders[key][1][0]<total_cam[1]:
+            print(1 ,"down")
+        if not boarders[key][1][1] > total_cam[1]:
+            print(2, 'd')
+        if not  boarders[key][0][0] < total_cam[0]:
+            print(3 , 'd')
+        if  not boarders[key][0][1] >total_cam[0]:
+            print(4, 'd')
+
+        if (pressed[pygame.K_DOWN]) and (boarders[key][1][1] >total_cam[1] and boarders[key][1][0] <total_cam[1]) and (boarders[key][0][0]<total_cam[0] and boarders[key][0][1]>total_cam[0]):
+            print("AA")
+            cam_move = (0,5)
+
+        elif (pressed[pygame.K_UP]) and (boarders[key][1][0] <total_cam[1] and boarders[key][1][1] >total_cam[1]) and (boarders[key][0][0]<total_cam[0] and boarders[key][0][1] >total_cam[0]):
+            cam_move = (0, -5)
+            print(("push down"))
+        elif (pressed[pygame.K_l]) and (boarders[key][1][0] <total_cam[1] and boarders[key][1][1] >total_cam[1]) and (boarders[key][0][0]<total_cam[0] and boarders[key][0][1] >total_cam[0]):
+            cam_move = (-5, 0)
+
+        elif (pressed[pygame.K_r]) and (boarders[key][1][0] <total_cam[1] and boarders[key][1][1] >total_cam[1]) and (boarders[key][0][0]<total_cam[0] and boarders[key][0][1] >total_cam[0]):
+            cam_move = (5, 0)
+        else:
+            cam_move = (0, 0)
+        return cam_move
 startscreen(sprites)
 
 running = True
