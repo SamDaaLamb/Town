@@ -16,7 +16,7 @@ screen = pygame.display.set_mode((1000, 600))
 # Game name
 pygame.display.set_caption("Town")
 # speed
-speed = 5
+speed = 10
 
 # variables for inventory
 fivedollar = False
@@ -35,6 +35,25 @@ ladder = False
 loveletter = False
 magicpotion = False
 prettyflower = False
+bush1blity = True
+bush2blity = True
+bush3blity = True
+tree1blity = True
+tree2blity = True
+tree3blity = True
+
+done1b = False
+done2b = False
+done3b = False
+done1t = False
+done2t = False
+done3t = False
+
+bluenum = 0
+treenum = 0
+
+
+
 
 # background
 background = pygame.transform.scale(background, (2900, 2900))
@@ -110,6 +129,10 @@ sprites = {
     "treedoor": pygame.transform.scale_by(pygame.image.load("pics/treehouseinside.png"), 5.6),
     "blackdoor": pygame.transform.scale_by(pygame.image.load("pics/blackhouseinside.png"), 5.6),
     "wizarddoor": pygame.transform.scale_by(pygame.image.load("pics/wizardhouseinside.png"), 5.6),
+    "blueberriesbush": pygame.transform.scale_by(pygame.image.load("pics/blueberriesbush.png"), 5.6),
+    "blueberriesnew": pygame.transform.scale_by(pygame.image.load("pics/blueberriesnew.png"), 5.6),
+    "applestree": pygame.transform.scale_by(pygame.image.load("pics/applestree.png"), 5.6),
+    "textbox": pygame.transform.scale_by(pygame.image.load("pics/textbox.png"), 5.6),
     # # pygame.image.load("bush.png"),
     # pygame.image.load("tree.png"),
 }
@@ -279,7 +302,6 @@ def startscreen(sprites_variable):
                     if pygame.mouse.get_pos() >= (335, 415):
                         if pygame.mouse.get_pos() <= (683, 515):
                             return
-
             pygame.display.update()
 
 def inside(name,l_offset):
@@ -293,6 +315,8 @@ def inside(name,l_offset):
         screen.fill((0,0,0))
         if name == "wizarddoor":
             screen.blit(sprites.get(name), (200, 10))
+        elif name == 'pinkdoor': screen.blit(sprites.get(name), (200, 10))
+        elif name == 'treedoor': screen.blit(sprites.get(name), (200, 10))
         else:
             screen.blit(sprites.get(name), (285, 85))
         player(l_offset)
@@ -344,10 +368,13 @@ def door():
             inside(key, offset)
 
 
+
 # can make this faster by makeing it super long with just if, elif,elif
 def blitty():
-    screen.blit(sprites.get("tree_strom"), (camera))
+
+    screen.blit(sprites.get("tree_strom"), camera + (0,0))
     screen.blit(sprites.get("bridge"), camera + (2151.8, 1432.6))
+
     # screen.blit(sm_river, camera + (550, 1020))
 
     if camera[1] - offset[1] >215:
@@ -391,11 +418,22 @@ def blitty():
 
 startscreen(sprites)
 
+
 running = True
 while running:
+    event = pygame.event.get()
+    for e in event:
+        if e.type == pygame.QUIT:
+            running = False
+
+    # background
+    screen.blit(background, (camera))
+
+    pressed = pygame.key.get_pressed()
+    # player()
 
     # Color of the screen, RGB
-    print(camera - offset)
+    print(-camera - offset)
     # Camera vector
     camera_move = pygame.Vector2()
 
@@ -404,12 +442,65 @@ while running:
     if f_step >= len(fwd_ani):
         f_step = -1
 
+    if any(pressed):
+        L_last = False
+        R_last = False
+        D_last = False
+        U_last = False
+
+    blitty()
+
+    bush1= pygame.Rect (camera[0] + 2421.8, camera[1]+ 1102.6, 350, 250)
+    if pressed[pygame.K_e] and bush1.collidepoint(pygame.mouse.get_pos()) and done1b == False:
+        bush1blity = False
+        blueberries = True
+        bluenum = bluenum + 1
+        done1b = True
+    if bush1blity:
+        screen.blit(sprites.get("blueberriesbush"), camera + (2421.8, 1102.6))
+    bush2= pygame.Rect (camera[0] + 47.6, camera[1]+ 2288, 350, 250)
+    if pressed[pygame.K_e] and bush2.collidepoint(pygame.mouse.get_pos()) and done2b == False:
+        bush2blity = False
+        blueberries = True
+        bluenum = bluenum + 1
+    if bush2blity:
+        screen.blit(sprites.get("blueberriesnew"), camera + (47.6, 2258))
+    bush3= pygame.Rect (camera[0] + 1201, camera[1]+ 392.6, 350, 250)
+    if pressed[pygame.K_e] and bush3.collidepoint(pygame.mouse.get_pos()) and done3b == False:
+        bush3blity = False
+        blueberries = True
+        bluenum = bluenum + 1
+    if bush3blity:
+        screen.blit(sprites.get("blueberriesbush"), camera + (1201.8, 382.6))
+    tree1= pygame.Rect (camera[0] + 490, camera[1]+ 7, 350, 250)
+    if pressed[pygame.K_e] and tree1.collidepoint(pygame.mouse.get_pos()) and done1t == False:
+        tree1blity = False
+        apple = True
+        treenum = treenum + 1
+        done1t = True
+    if tree1blity:
+        screen.blit(sprites.get("applestree"), camera + (460, 7))
+    tree2= pygame.Rect (camera[0] + 705, camera[1]+ 1440, 350, 250)
+    if pressed[pygame.K_e] and tree2.collidepoint(pygame.mouse.get_pos()) and done2t == False:
+        tree2blity = False
+        apple = True
+        treenum = treenum + 1
+        done2t = True
+    if tree2blity:
+        screen.blit(sprites.get("applestree"), camera + (675, 1440))
+    tree3= pygame.Rect (camera[0] + 1350, camera[1]+ 850, 350, 250)
+    if pressed[pygame.K_e] and tree3.collidepoint(pygame.mouse.get_pos()) and done3t == False:
+        tree3blity = False
+        apple = True
+        treenum = treenum + 1
+        done3t = True
+    if tree3blity:
+        screen.blit(sprites.get("applestree"), camera + (1320, 850))
 
 
-    # background
-    screen.blit(background, (camera))
-
-
+    if bluenum == 1:
+        blueberries = True
+    print (bluenum)
 
     if blueberries:
         screen.blit(sprites.get("blueberries"), (324, 506))
@@ -507,20 +598,7 @@ while running:
 
 
 
-    event = pygame.event.get()
-    for e in event:
-        if e.type == pygame.QUIT:
-            running = False
 
-    pressed = pygame.key.get_pressed()
-    # player()
-
-    if any(pressed):
-        L_last = False
-        R_last = False
-        D_last = False
-        U_last = False
-    blitty()
 
     # Collisions
 
