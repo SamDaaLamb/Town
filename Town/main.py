@@ -35,25 +35,6 @@ ladder = False
 loveletter = False
 magicpotion = False
 prettyflower = False
-bush1blity = True
-bush2blity = True
-bush3blity = True
-tree1blity = True
-tree2blity = True
-tree3blity = True
-
-done1b = False
-done2b = False
-done3b = False
-done1t = False
-done2t = False
-done3t = False
-
-bluenum = 0
-treenum = 0
-
-
-
 
 # background
 background = pygame.transform.scale(background, (2900, 2900))
@@ -125,14 +106,10 @@ sprites = {
     "towntitle": pygame.transform.scale_by(pygame.image.load("pics/towntitle.png"), 5.6),
     "door1": pygame.transform.scale_by(pygame.image.load("pics/gamehouse1img.png"), 0.05),
     "pinkdoor": pygame.transform.scale_by(pygame.image.load("pics/pinkhouseinside.png"), 5.6),
-    "silodoor": pygame.transform.scale_by(pygame.image.load("pics/silohouseinside.png"), 5.6),
+    "silodoor": pygame.transform.scale_by(pygame.image.load("pics/silohouseinside.png"), 6.0),
     "treedoor": pygame.transform.scale_by(pygame.image.load("pics/treehouseinside.png"), 5.6),
     "blackdoor": pygame.transform.scale_by(pygame.image.load("pics/blackhouseinside.png"), 5.6),
     "wizarddoor": pygame.transform.scale_by(pygame.image.load("pics/wizardhouseinside.png"), 5.6),
-    "blueberriesbush": pygame.transform.scale_by(pygame.image.load("pics/blueberriesbush.png"), 5.6),
-    "blueberriesnew": pygame.transform.scale_by(pygame.image.load("pics/blueberriesnew.png"), 5.6),
-    "applestree": pygame.transform.scale_by(pygame.image.load("pics/applestree.png"), 5.6),
-    "textbox": pygame.transform.scale_by(pygame.image.load("pics/textbox.png"), 5.6),
     # # pygame.image.load("bush.png"),
     # pygame.image.load("tree.png"),
 }
@@ -297,61 +274,459 @@ def startscreen(sprites_variable):
         screen.blit(sprites.get("towntitle"), (0, 0))
         while menuAtivo:
             for evento in pygame.event.get():
-                print(evento)
+                print(pygame.mouse.get_pos())
                 if evento.type == pygame.MOUSEBUTTONDOWN:
-                    if pygame.mouse.get_pos() >= (335, 415):
-                        if pygame.mouse.get_pos() <= (683, 515):
+                    if pygame.mouse.get_pos()[0] >= (335) and pygame.mouse.get_pos()[1] >= 415:
+                        if pygame.mouse.get_pos()[0] <= (683) and pygame.mouse.get_pos()[1] <= 515:
                             return
+
             pygame.display.update()
 
-def inside(name,l_offset):
-    while True:
+wm = pygame.Rect(640, 510, 80, 30)
+bm = pygame.Rect(395, 530, 130, 30)
+pm = pygame.Rect(395, 540, 130, 30)
+sm = pygame.Rect(565, 390, 130, 30)
+tm = pygame.Rect(395, 490, 140, 30)
+dm = pygame.Rect(355, 380, 140, 40)
+
+
+def inside(name):
+    l_offset = pygame.Vector2((0, 0))
+    wran = True
+    pran = True
+    bran = True
+    dran = True
+    tran = True
+    sran = True
+
+
+
+
+
+
+
+    runningins = True
+
+    while runningins:
+        global stop_line
+
+        last_position = l_offset
+
+
+        speed = 1
+        print(l_offset + (500,300))
+        lr = pygame.Rect(510 + l_offset[0], 300 + l_offset[1], 30, 80)
+        l_play = lr.left
+        r_play = lr.right
+        t_play = lr.top
+        b_play = lr.bottom
         event = pygame.event.get()
         for e in event:
             if e.type == pygame.QUIT:
-                running = False
+                runningins = False
 
         pressed = pygame.key.get_pressed()
         screen.fill((0,0,0))
+        pygame.draw.rect(screen, color1, lr)
+
+
         if name == "wizarddoor":
+            w_lines = [
+                ((230, 100), (230, 295))
+                , ((230, 295), (285, 295))
+                , ((285, 295), (285, 385))
+                , ((285, 385), (230, 385))
+                , ((230, 385), (230, 525))
+                , ((230, 525), (420, 525))
+                , ((420, 525), (420, 480))
+                , ((420, 480), (465, 480))
+                , ((465, 480), (465, 530))
+                , ((465, 530), (750, 530))
+                , ((750, 530), (750, 310))
+                , ((750, 310), (375, 310))
+                , ((375, 310), (375, 290))
+                , ((375, 290), (425, 290))
+                , ((425, 290), (425, 100))
+                , ((425, 100), (230, 100))
+            ]
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if wran:
+                l_offset = pygame.Vector2((150, 140))
+                wran = False
+            fm = wm
+
+            for line in w_lines:
+                if lr.clipline(line) and t_wall == None:
+                    print(lr.clipline(line))
+
+                    stop_line = line
+                    print(stop_line)
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+
             screen.blit(sprites.get(name), (200, 10))
-        elif name == 'pinkdoor': screen.blit(sprites.get(name), (200, 10))
-        elif name == 'treedoor': screen.blit(sprites.get(name), (200, 10))
-        else:
-            screen.blit(sprites.get(name), (285, 85))
-        player(l_offset)
-        pressed = pygame.key.get_pressed()
+#             pygame.draw.rect(screen, color1, wm)
+#             pygame.draw.lines(screen,color1, False,[
+# (230, 100), (230, 295)
+# ,(230, 295), (285, 295)
+# ,(285, 295), (285, 385)
+# ,(285, 385), (230, 385)
+# ,(230, 385), (230, 525)
+# ,(230, 525), (420, 525)
+# ,(420, 525), (420, 480)
+# ,(420, 480), (465, 480)
+# ,(465, 480), (465, 530)
+# ,(465, 530), (750, 530)
+# ,(750, 530), (750, 310)
+# ,(750, 310), (375, 310)
+# ,(375, 310), (375, 290)
+# ,(375, 290), (425, 290)
+# ,(425, 290), (425, 100)
+# ,(425, 100), (230, 100)
+# ])
+            # pygame.draw.line(screen, color1,(230, 100), (230, 295))
+            # pygame.draw.line(screen, color, (230, 295), (285, 295))
+            # pygame.draw.line(screen, color1,(285, 295), (285, 385))
+            # pygame.draw.line(screen, color, (285, 385), (230, 385))
+            # pygame.draw.line(screen, color, (230, 385), (230, 525))
+            # pygame.draw.line(screen, color, (230, 525), (420, 525))
+            # pygame.draw.line(screen, color, (420, 525), (420, 480))
+            # pygame.draw.line(screen, color, (420, 480), (465, 480))
+            # pygame.draw.line(screen, color, (465, 480), (465, 530))
+            # pygame.draw.line(screen, color, (465, 530), (750, 530))
+            # pygame.draw.line(screen, color, (750, 530), (750, 310))
+            # pygame.draw.line(screen, color, (750, 310), (375, 310))
+            # pygame.draw.line(screen, color1,(375, 310), (375, 290))
+            # pygame.draw.line(screen, color1,(375, 290), (425, 290))
+            # pygame.draw.line(screen, color, (425, 290), (425, 100))
+            # pygame.draw.line(screen, color, (425, 100), (230, 100))
+
+
+
+
+        elif name == 'blackdoor':
+            b_lines = [
+                ((190, 560), (190, 400)),
+                ((190, 400), (345, 400)),
+                ((345, 400), (345, 330)),
+                ((345, 330), (190, 330)),
+                ((190, 330), (190, 20)),
+                ((190, 20), (735, 20)),
+                ((735, 20), (735, 330)),
+                ((735, 330), (570, 330)),
+                ((570, 330), (570, 395)),
+                ((570, 330), (570, 395)),
+                ((570, 395), (730, 395)),
+                ((730, 395), (730, 565)),
+                ((730, 565), (190, 560)),
+
+            ]
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if bran:
+                l_offset = pygame.Vector2((-40, 160))
+                bran = False
+            fm = bm
+            for line in b_lines:
+                if lr.clipline(line) and t_wall == None:
+                    print(lr.clipline(line))
+                    stop_line = line
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+            screen.blit(sprites.get(name), (180, 10))
+            # pygame.draw.rect(screen, color1, bm)
+
+        elif name == 'pinkdoor':
+            p_lines = [
+                ((220, 555), (220, 350)),
+                ((220, 350), (345, 350)),
+                ((345, 350), (345, 250)),
+                ((345, 250), (220, 250)),
+                ((220, 250), (220, 25)),
+                ((220, 25), (345, 25)),
+                ((345, 25), (345, 130)),
+                ((345, 130), (540, 130)),
+                ((540, 130), (540, 70)),
+                ((540, 70), (690, 70)),
+                ((690, 70), (690, 255)),
+                ((690, 255), (535, 255)),
+                ((535, 255), (535, 285)),
+                ((535, 285), (690, 285)),
+                ((690, 285), (690, 555)),
+                ((690, 555), (220, 555))
+            ]
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if pran:
+                l_offset = pygame.Vector2((-50, 180))
+                pran = False
+            fm = pm
+            for line in p_lines:
+                if lr.clipline(line) and t_wall == None:
+                    print(lr.clipline(line))
+                    stop_line = line
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+            screen.blit(sprites.get(name), (180, 10))
+            # pygame.draw.rect(screen, color1, pm)
+
+        elif name == "silodoor":
+            print("dsfahu")
+            s_lines = [
+                ((260, 160), (260, 405)),
+                ((260, 405), (700, 405)),
+                ((700, 405), (700, 160)),
+                ((700, 160), (260, 160))
+            ]
+
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if sran:
+                l_offset = pygame.Vector2((120, 25))
+                sran = False
+            stop_line = s_lines[0]
+            fm = sm
+            for line in s_lines:
+                if lr.clipline(line) and t_wall == None:
+
+                    stop_line = line
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+            screen.blit(sprites.get(name), (180, 10))
+            # pygame.draw.rect(screen, color1, sm)
+
+
+        elif name == "treedoor":
+            t_lines = [
+                ((250, 520), (250, 320)),
+                ((250, 320), (670, 320)),
+                ((670, 320), (670, 520)),
+                ((670, 520), (250, 520))
+            ]
+
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if tran:
+                l_offset = pygame.Vector2((-60, 130))
+                tran = False
+            fm = tm
+            for line in t_lines:
+                if lr.clipline(line) and t_wall == None:
+                    print(lr.clipline(line))
+                    stop_line = line
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+            screen.blit(sprites.get(name), (180, 10))
+            # pygame.draw.rect(screen, color1, tm)
+        elif name == "door1":
+            d_lines = [
+                ((195, 25), (660, 25)),
+                ((660, 25), (660, 420)),
+                ((660, 420), (195, 420)),
+                ((345, 250), (220, 250)),
+                ((220, 250), (220, 25)),
+                ((220, 25), (345, 25)),
+                ((345, 25), (345, 130)),
+                ((345, 130), (540, 130)),
+                ((540, 130), (540, 70)),
+                ((540, 70), (690, 70)),
+                ((690, 70), (690, 255)),
+                ((690, 255), (535, 255)),
+                ((535, 255), (535, 285)),
+                ((535, 285), (690, 285)),
+                ((690, 285), (690, 555)),
+                ((690, 555), (220, 555))
+
+            ]
+            t_wall = None
+            b_wall = None
+            l_wall = None
+            r_wall = None
+            t_wall2 = None
+            b_wall2 = None
+            l_wall2 = None
+            r_wall2 = None
+            if dran:
+                l_offset = pygame.Vector2((-80, 30))
+                dran = False
+            fm = dm
+            for line in d_lines:
+                if lr.clipline(line) and t_wall == None:
+                    print(lr.clipline(line))
+                    stop_line = line
+
+                    t_wall = min((line)[0][1], (line)[1][1])
+                    b_wall = max((line)[0][1], (line)[1][1])
+                    l_wall = min((line)[0][0], (line)[1][0])
+                    r_wall = max((line)[0][0], (line)[1][0])
+                elif lr.clipline(line) and t_wall != None:
+                    t_wall2 = min((line)[0][1], (line)[1][1])
+                    b_wall2 = max((line)[0][1], (line)[1][1])
+                    l_wall2 = min((line)[0][0], (line)[1][0])
+                    r_wall2 = max((line)[0][0], (line)[1][0])
+
+            screen.blit(sprites.get(name), (180, 10))
+            pygame.draw.rect(screen, color1, dm)
+
         if any(pressed):
             print(pressed)
         # can make this faster by converting if to elif.
-        if False:# len(r.collidedictall(boarders, rect_values)) != 0 and b_play <= t_wall + 5:
+        # if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: l_offset += (0, speed)
+        # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
+        # if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
+        # if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:l_offset += (-speed, 0)
+        if t_wall2 == None:
+            if lr.clipline(stop_line) and b_play <= t_wall + 5:
+                print(b_play,'player')
+                print(t_wall)
+                pass
+            else:
 
-            pass
-        else:
-            print("sd")
-            if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: l_offset += (0, speed)
+                if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: l_offset += (0, speed)
 
-        if False: # len(r.collidedictall(boarders, rect_values)) != 0 and r_play <= l_wall + 5:
-            pass
-        else:
-
-            print("dfkh")
-            if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
-
-        if False: #len(r.collidedictall(boarders, rect_values)) != 0 and (t_play >= b_wall - 5):
-            pass
-        else:
+            if lr.clipline(stop_line) and r_play <= l_wall + 5:
+                pass
+            else:
 
 
-            if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
+                if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
 
-        if False: #len(r.collidedictall(boarders, rect_values)) != 0 and (l_play >= r_wall - 5):
+            if lr.clipline(stop_line) and (t_play >= b_wall - 5):
+                pass
+            else:
 
-            pass
-        else:
-            print("dsf")
-            if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: l_offset += (-speed, 0)
-        print((500, 300) + l_offset)
+
+                if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
+
+            if lr.clipline(stop_line) and (l_play >= r_wall - 5):
+
+                pass
+            else:
+                if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
+                    l_offset += (-speed, 0)
+                    print(l_offset)
+        #
+        #
+        if t_wall2 != None:
+            if lr.clipline(stop_line) and ((t_play <= t_wall + 5 and l_play <= l_wall2 + 5) and (t_play <= t_wall2 + 5 and l_play <= l_wall + 5)) or ((t_play <= t_wall + 5 and r_play >= r_wall2 - 5) and (t_play <= t_wall2 + 5 and r_play >= r_wall - 5)):
+                print("Top LEFT")
+                pass
+            else:
+
+                if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
+        #         # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
+
+
+            # if lr.clipline(stop_line) and ((t_play <= t_wall + 5 and r_play >= r_wall2 - 5) and (t_play <= t_wall2 + 5 and r_play >= r_wall - 5)):
+            #     print("Top Right")
+            #     # print(t_play, "t player")
+            #     # print(t_play, "b player")
+            #     # print(t_wall2, "t wal2l")
+            #     # print(b_wall2, "b wall2")
+            #     # print(r_play, "r player")
+            #     # print(r_wall2, "r wall2")
+            #     pass
+            # else:
+            #
+            #
+            #     # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
+            #     if pressed[pygame.K_UP] or pressed[pygame.K_UP]: l_offset += (0, -speed)
+            #     # if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: l_offset += (-speed, 0)
+
+            if lr.clipline(stop_line) and ((b_play >= b_wall - 5 and r_play >= r_wall2 - 5) and (b_play >= b_wall2 - 5 and r_play >= r_wall - 5)) or ((b_play >= b_wall - 5 and l_play <= l_wall2 + 5) and (b_play >= b_wall2 - 5 and l_play <= l_wall + 5)):
+                print("Bot Right")
+
+                pass
+            else:
+
+                if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: l_offset += (0, speed)
+                # if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: l_offset += (-speed, 0)
+
+            # if lr.clipline(stop_line) and ((b_play >= b_wall - 5 and l_play <= l_wall2 + 5) and (b_play >= b_wall2 - 5 and l_play <= l_wall + 5)):
+            #     print("Bot Left")
+            #     pass
+            # else:
+            #     if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: l_offset += (0, speed)
+            #     # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
+        player(l_offset)
+        if pressed[pygame.K_l] and lr.colliderect(fm):
+            return
         pygame.display.update()
 
 
@@ -365,16 +740,13 @@ def door():
                 doordictionary[key][1][1] > total_cam[1] and doordictionary[key][1][0] < total_cam[1]) and (
                 doordictionary[key][0][0] < total_cam[0] and doordictionary[key][0][1] > total_cam[0]):
             print("hello!")
-            inside(key, offset)
-
+            inside(key)
 
 
 # can make this faster by makeing it super long with just if, elif,elif
 def blitty():
-
-    screen.blit(sprites.get("tree_strom"), camera + (0,0))
+    screen.blit(sprites.get("tree_strom"), (camera))
     screen.blit(sprites.get("bridge"), camera + (2151.8, 1432.6))
-
     # screen.blit(sm_river, camera + (550, 1020))
 
     if camera[1] - offset[1] >215:
@@ -421,16 +793,6 @@ startscreen(sprites)
 
 running = True
 while running:
-    event = pygame.event.get()
-    for e in event:
-        if e.type == pygame.QUIT:
-            running = False
-
-    # background
-    screen.blit(background, (camera))
-
-    pressed = pygame.key.get_pressed()
-    # player()
 
     # Color of the screen, RGB
     print(-camera - offset)
@@ -442,65 +804,12 @@ while running:
     if f_step >= len(fwd_ani):
         f_step = -1
 
-    if any(pressed):
-        L_last = False
-        R_last = False
-        D_last = False
-        U_last = False
-
-    blitty()
-
-    bush1= pygame.Rect (camera[0] + 2421.8, camera[1]+ 1102.6, 350, 250)
-    if pressed[pygame.K_e] and bush1.collidepoint(pygame.mouse.get_pos()) and done1b == False:
-        bush1blity = False
-        blueberries = True
-        bluenum = bluenum + 1
-        done1b = True
-    if bush1blity:
-        screen.blit(sprites.get("blueberriesbush"), camera + (2421.8, 1102.6))
-    bush2= pygame.Rect (camera[0] + 47.6, camera[1]+ 2288, 350, 250)
-    if pressed[pygame.K_e] and bush2.collidepoint(pygame.mouse.get_pos()) and done2b == False:
-        bush2blity = False
-        blueberries = True
-        bluenum = bluenum + 1
-    if bush2blity:
-        screen.blit(sprites.get("blueberriesnew"), camera + (47.6, 2258))
-    bush3= pygame.Rect (camera[0] + 1201, camera[1]+ 392.6, 350, 250)
-    if pressed[pygame.K_e] and bush3.collidepoint(pygame.mouse.get_pos()) and done3b == False:
-        bush3blity = False
-        blueberries = True
-        bluenum = bluenum + 1
-    if bush3blity:
-        screen.blit(sprites.get("blueberriesbush"), camera + (1201.8, 382.6))
-    tree1= pygame.Rect (camera[0] + 490, camera[1]+ 7, 350, 250)
-    if pressed[pygame.K_e] and tree1.collidepoint(pygame.mouse.get_pos()) and done1t == False:
-        tree1blity = False
-        apple = True
-        treenum = treenum + 1
-        done1t = True
-    if tree1blity:
-        screen.blit(sprites.get("applestree"), camera + (460, 7))
-    tree2= pygame.Rect (camera[0] + 705, camera[1]+ 1440, 350, 250)
-    if pressed[pygame.K_e] and tree2.collidepoint(pygame.mouse.get_pos()) and done2t == False:
-        tree2blity = False
-        apple = True
-        treenum = treenum + 1
-        done2t = True
-    if tree2blity:
-        screen.blit(sprites.get("applestree"), camera + (675, 1440))
-    tree3= pygame.Rect (camera[0] + 1350, camera[1]+ 850, 350, 250)
-    if pressed[pygame.K_e] and tree3.collidepoint(pygame.mouse.get_pos()) and done3t == False:
-        tree3blity = False
-        apple = True
-        treenum = treenum + 1
-        done3t = True
-    if tree3blity:
-        screen.blit(sprites.get("applestree"), camera + (1320, 850))
 
 
-    if bluenum == 1:
-        blueberries = True
-    print (bluenum)
+    # background
+    screen.blit(background, (camera))
+
+
 
     if blueberries:
         screen.blit(sprites.get("blueberries"), (324, 506))
@@ -552,6 +861,7 @@ while running:
     bw = pygame.Rect(2290 + camera[0], 2055 + camera[1], 105, 1)
     rr = pygame.Rect(550 + camera[0], 1020 + camera[1], 2190, 1725)
 
+
     boarders = {
         # [camera[0],camera[0]+50],[camera[1],camera[1]+80]],
         # "silo_house":sh,#[-330.0,-35.0],[-530.0,-400.0]],
@@ -572,7 +882,7 @@ while running:
     # y 1.3613861386138613861386138613861
     r = pygame.Rect(510+offset[0], 300+offset[1], 30, 80)
     # pygame.draw.rect(screen, color1, h1)
-    # pygame.draw.rect(screen, color,r)
+    pygame.draw.rect(screen, color,r)
     # pygame.draw.rect(screen, color, ph)
     # pygame.draw.rect(screen, color, sh)
     # pygame.draw.rect(screen, color1, s)
@@ -598,7 +908,20 @@ while running:
 
 
 
+    event = pygame.event.get()
+    for e in event:
+        if e.type == pygame.QUIT:
+            running = False
 
+    pressed = pygame.key.get_pressed()
+    # player()
+
+    if any(pressed):
+        L_last = False
+        R_last = False
+        D_last = False
+        U_last = True
+    blitty()
 
     # Collisions
 
@@ -639,7 +962,8 @@ while running:
         if camera[0] != 0 and offset[0] == 0:
             if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: camera_move += (speed, 0)
         elif offset[0] <= 0 or (camera[0] == -1890 and offset != 0):
-            if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: offset += (-speed, 0)
+            if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:offset += (-speed, 0)
+
 
     # River collision using Bit Masking cause I have a Fivehead
     # pygame.sprite.spritecollide(player(),sm_river, False, pygame.sprite.collide_mask())
