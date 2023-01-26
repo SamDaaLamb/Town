@@ -337,7 +337,8 @@ def inside(name):
     runningins = True
 
     while runningins:
-        global stop_line
+        
+        stop_line = ((0,0), (0,0))
 
         last_position = l_offset
 
@@ -475,7 +476,7 @@ def inside(name):
             l_wall2 = None
             r_wall2 = None
             if bran:
-                l_offset = pygame.Vector2((-40, 160))
+                l_offset = pygame.Vector2((-40, 180))
                 bran = False
             fm = bm
             for line in b_lines:
