@@ -1,9 +1,9 @@
-
 import pygame
 from pygame import mixer
 
-#load music
+# load music
 from pygame import mixer
+
 mixer.init()
 # mixer.music.load('song.wav')
 # mixer.music.play(-1)
@@ -52,12 +52,14 @@ done3t = False
 done1g = False
 done2g = False
 done3g = False
-
+donedollar = False
+appleblit = True
+berryblit = True
+response = False
 ladderblity = False
 
 bluenum = 0
 treenum = 0
-
 
 # background
 background = pygame.transform.scale(background, (2900, 2900))
@@ -72,10 +74,10 @@ U_last = False
 D_last = False
 R_last = False
 
-doordictionary={
+doordictionary = {
     "silodoor": [[-175, -80], [- 570, -530]],
-    "door1": [[-1850, -1740],[-805, -765]],
-    "wizarddoor": [[-1250,-1145] ,[95, 125]],
+    "door1": [[-1850, -1740], [-805, -765]],
+    "wizarddoor": [[-1250, -1145], [95, 125]],
     "pinkdoor": [[-1065, -975], [-1185, -1160]],
     "blackdoor": [[-1610, -1495], [-2170, 2140]],
     "treedoor": [[165, 245], [-2205, -2175]]
@@ -133,12 +135,12 @@ sprites = {
     "treedoor": pygame.transform.scale_by(pygame.image.load("pics/treehouseinside.png"), 5.6),
     "blackdoor": pygame.transform.scale_by(pygame.image.load("pics/blackhouseinside.png"), 5.6),
     "wizarddoor": pygame.transform.scale_by(pygame.image.load("pics/wizardhouseinside.png"), 5.6),
-     "blueberriesbush": pygame.transform.scale_by(pygame.image.load("pics/blueberriesbush.png"), 5.6),
+    "blueberriesbush": pygame.transform.scale_by(pygame.image.load("pics/blueberriesbush.png"), 5.6),
     "blueberriesnew": pygame.transform.scale_by(pygame.image.load("pics/blueberriesnew.png"), 5.6),
     "applestree": pygame.transform.scale_by(pygame.image.load("pics/applestree.png"), 5.6),
-    "textbox": pygame.transform.scale_by(pygame.image.load("pics/textbox.png"), 5.6),
+    "textbox": pygame.transform.scale_by(pygame.image.load("pics/textbox.png"), 4.8),
     "ladderbig": pygame.transform.scale_by(pygame.image.load("pics/ladderbig.png"), 5.6),
-  
+
     # # pygame.image.load("bush.png"),
     # pygame.image.load("tree.png"),
 }
@@ -186,8 +188,6 @@ left_ani = [
 
 f_step = 0
 
-
-
 # Camera Vector that we input into background and sprites.
 camera = pygame.Vector2((-1890, -50))
 offset = pygame.Vector2((460, 0))
@@ -195,8 +195,8 @@ offset = pygame.Vector2((460, 0))
 print(pygame.display.get_surface())
 
 # colour for rec testing
-color1 = (255,255,0)
-color = (255,0,0)
+color1 = (255, 255, 0)
+color = (255, 0, 0)
 rect_values = 1
 
 # startscreen
@@ -207,8 +207,7 @@ title = True
 # Was gonna go classless but had to make a class for bit masks
 
 class Playa(pygame.sprite.Sprite):
-    def __init__(self,image,mask,rect):
-
+    def __init__(self, image, mask, rect):
         # self.settings = settings
 
         self.image = image
@@ -217,11 +216,8 @@ class Playa(pygame.sprite.Sprite):
         # self.Playa = self.settings
 
 
-
-
-
 class Riva(pygame.sprite.Sprite):
-    def __init__(self,image,mask,rect):
+    def __init__(self, image, mask, rect):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = image
@@ -231,12 +227,11 @@ class Riva(pygame.sprite.Sprite):
 
 # self.mask = pygame.mask.from_surface(self.image)
 # self.rect = pygame.mask.Mask.get_rect(self.mask)
-def player(offset = offset):
+def player(offset=offset):
     global L_last
     global R_last
     global D_last
     global U_last
-
 
     pressed = pygame.key.get_pressed()
     # Up diagonals
@@ -293,9 +288,11 @@ def player(offset = offset):
     # print((500,300)+offset)
     return play_image
 
+
 # for bitmask colisoin
 player_mask = pygame.mask.from_surface(player())
 river_mask = pygame.mask.from_surface(sm_river)
+
 
 # Functions
 def startscreen(sprites_variable):
@@ -311,6 +308,7 @@ def startscreen(sprites_variable):
 
             pygame.display.update()
 
+
 wm = pygame.Rect(640, 510, 80, 30)
 bm = pygame.Rect(395, 530, 130, 30)
 pm = pygame.Rect(395, 540, 130, 30)
@@ -320,6 +318,8 @@ dm = pygame.Rect(355, 380, 140, 40)
 
 
 def inside(name):
+
+    global donedollar, appleblit, response, berryblit
     l_offset = pygame.Vector2((0, 0))
     wran = True
     pran = True
@@ -328,24 +328,24 @@ def inside(name):
     tran = True
     sran = True
 
-
-
-
-
-
-
     runningins = True
 
     while runningins:
-        
+
         stop_line = ((0,0), (0,0))
+
+
 
         last_position = l_offset
 
-
         speed = 1
-        print(l_offset + (500,300))
+        print(l_offset + (500, 300))
         lr = pygame.Rect(510 + l_offset[0], 300 + l_offset[1], 30, 80)
+
+
+
+
+
         l_play = lr.left
         r_play = lr.right
         t_play = lr.top
@@ -356,9 +356,8 @@ def inside(name):
                 runningins = False
 
         pressed = pygame.key.get_pressed()
-        screen.fill((0,0,0))
+        screen.fill((0, 0, 0))
         pygame.draw.rect(screen, color1, lr)
-
 
         if name == "wizarddoor":
             w_lines = [
@@ -409,46 +408,45 @@ def inside(name):
                     l_wall2 = min((line)[0][0], (line)[1][0])
                     r_wall2 = max((line)[0][0], (line)[1][0])
 
-
             screen.blit(sprites.get(name), (200, 10))
-#             pygame.draw.rect(screen, color1, wm)
-#             pygame.draw.lines(screen,color1, False,[
-# (230, 100), (230, 295)
-# ,(230, 295), (285, 295)
-# ,(285, 295), (285, 385)
-# ,(285, 385), (230, 385)
-# ,(230, 385), (230, 525)
-# ,(230, 525), (420, 525)
-# ,(420, 525), (420, 480)
-# ,(420, 480), (465, 480)
-# ,(465, 480), (465, 530)
-# ,(465, 530), (750, 530)
-# ,(750, 530), (750, 310)
-# ,(750, 310), (375, 310)
-# ,(375, 310), (375, 290)
-# ,(375, 290), (425, 290)
-# ,(425, 290), (425, 100)
-# ,(425, 100), (230, 100)
-# ])
-            # pygame.draw.line(screen, color1,(230, 100), (230, 295))
-            # pygame.draw.line(screen, color, (230, 295), (285, 295))
-            # pygame.draw.line(screen, color1,(285, 295), (285, 385))
-            # pygame.draw.line(screen, color, (285, 385), (230, 385))
-            # pygame.draw.line(screen, color, (230, 385), (230, 525))
-            # pygame.draw.line(screen, color, (230, 525), (420, 525))
-            # pygame.draw.line(screen, color, (420, 525), (420, 480))
-            # pygame.draw.line(screen, color, (420, 480), (465, 480))
-            # pygame.draw.line(screen, color, (465, 480), (465, 530))
-            # pygame.draw.line(screen, color, (465, 530), (750, 530))
-            # pygame.draw.line(screen, color, (750, 530), (750, 310))
-            # pygame.draw.line(screen, color, (750, 310), (375, 310))
-            # pygame.draw.line(screen, color1,(375, 310), (375, 290))
-            # pygame.draw.line(screen, color1,(375, 290), (425, 290))
-            # pygame.draw.line(screen, color, (425, 290), (425, 100))
-            # pygame.draw.line(screen, color, (425, 100), (230, 100))
-
-
-
+            screen.blit(sprites.get("textbox"), (510, 1))
+            if loveletter == False:
+                screen.blit(sprites.get("loveletter"), (545, 160))
+        #             pygame.draw.rect(screen, color1, wm)
+        #             pygame.draw.lines(screen,color1, False,[
+        # (230, 100), (230, 295)
+        # ,(230, 295), (285, 295)
+        # ,(285, 295), (285, 385)
+        # ,(285, 385), (230, 385)
+        # ,(230, 385), (230, 525)
+        # ,(230, 525), (420, 525)
+        # ,(420, 525), (420, 480)
+        # ,(420, 480), (465, 480)
+        # ,(465, 480), (465, 530)
+        # ,(465, 530), (750, 530)
+        # ,(750, 530), (750, 310)
+        # ,(750, 310), (375, 310)
+        # ,(375, 310), (375, 290)
+        # ,(375, 290), (425, 290)
+        # ,(425, 290), (425, 100)
+        # ,(425, 100), (230, 100)
+        # ])
+        # pygame.draw.line(screen, color1,(230, 100), (230, 295))
+        # pygame.draw.line(screen, color, (230, 295), (285, 295))
+        # pygame.draw.line(screen, color1,(285, 295), (285, 385))
+        # pygame.draw.line(screen, color, (285, 385), (230, 385))
+        # pygame.draw.line(screen, color, (230, 385), (230, 525))
+        # pygame.draw.line(screen, color, (230, 525), (420, 525))
+        # pygame.draw.line(screen, color, (420, 525), (420, 480))
+        # pygame.draw.line(screen, color, (420, 480), (465, 480))
+        # pygame.draw.line(screen, color, (465, 480), (465, 530))
+        # pygame.draw.line(screen, color, (465, 530), (750, 530))
+        # pygame.draw.line(screen, color, (750, 530), (750, 310))
+        # pygame.draw.line(screen, color, (750, 310), (375, 310))
+        # pygame.draw.line(screen, color1,(375, 310), (375, 290))
+        # pygame.draw.line(screen, color1,(375, 290), (425, 290))
+        # pygame.draw.line(screen, color, (425, 290), (425, 100))
+        # pygame.draw.line(screen, color, (425, 100), (230, 100))
 
         elif name == 'blackdoor':
             b_lines = [
@@ -476,7 +474,7 @@ def inside(name):
             l_wall2 = None
             r_wall2 = None
             if bran:
-                l_offset = pygame.Vector2((-40, 180))
+                l_offset = pygame.Vector2((-40, 160))
                 bran = False
             fm = bm
             for line in b_lines:
@@ -544,6 +542,27 @@ def inside(name):
                     r_wall2 = max((line)[0][0], (line)[1][0])
 
             screen.blit(sprites.get(name), (180, 10))
+            screen.blit(sprites.get("textbox"), (710, 80))
+            if prettyflower == False:
+                screen.blit(sprites.get("prettyflower"), (745, 239))
+            if fish == False:
+                screen.blit(sprites.get("fish"), (883, 239))
+
+            if appleblit == True:
+                screen.blit(sprites.get("apple"), (883, 313))
+            appl = pygame.Rect(camera[0] + 1740, camera[1] + 880, 150, 250)
+            if pressed[pygame.K_e] and appl.collidepoint(pygame.mouse.get_pos()) and treenum <= 3:
+                response = True
+                appleblit = False
+
+            if berryblit == True:
+                screen.blit(sprites.get("blueberries"), (745, 313))
+            berry = pygame.Rect(camera[0] + 745, camera[1] + 313, 150, 250)
+            pygame.draw.rect(screen, color1, berry)
+            if pressed[pygame.K_e] and berry.collidepoint(pygame.mouse.get_pos()) and bluenum == 3:
+                berryblit = False
+                fivedollar = True
+
             # pygame.draw.rect(screen, color1, pm)
 
         elif name == "silodoor":
@@ -584,6 +603,13 @@ def inside(name):
                     r_wall2 = max((line)[0][0], (line)[1][0])
 
             screen.blit(sprites.get(name), (180, 10))
+            screen.blit(sprites.get("textbox"), (710, 80))
+            if fivedollar == False:
+                screen.blit(sprites.get("5dollar"), (876, 239))
+            if jeweltwo == False:
+                screen.blit(sprites.get("jewel2"), (745, 239))
+            if bra == False:
+                screen.blit(sprites.get("bra"), (745, 313))
             # pygame.draw.rect(screen, color1, sm)
 
 
@@ -623,6 +649,11 @@ def inside(name):
                     r_wall2 = max((line)[0][0], (line)[1][0])
 
             screen.blit(sprites.get(name), (180, 10))
+            screen.blit(sprites.get("textbox"), (690, 150))
+            if jewelone == False:
+                screen.blit(sprites.get("jewel1"), (725, 379))
+            if magicpotion == False:
+                screen.blit(sprites.get("magicpotion"), (863, 384))
             # pygame.draw.rect(screen, color1, tm)
         elif name == "door1":
             d_lines = [
@@ -683,7 +714,7 @@ def inside(name):
         # if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:l_offset += (-speed, 0)
         if t_wall2 == None:
             if lr.clipline(stop_line) and b_play <= t_wall + 5:
-                print(b_play,'player')
+                print(b_play, 'player')
                 print(t_wall)
                 pass
             else:
@@ -694,13 +725,11 @@ def inside(name):
                 pass
             else:
 
-
                 if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
 
             if lr.clipline(stop_line) and (t_play >= b_wall - 5):
                 pass
             else:
-
 
                 if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
 
@@ -714,14 +743,16 @@ def inside(name):
         #
         #
         if t_wall2 != None:
-            if lr.clipline(stop_line) and ((t_play <= t_wall + 5 and l_play <= l_wall2 + 5) and (t_play <= t_wall2 + 5 and l_play <= l_wall + 5)) or ((t_play <= t_wall + 5 and r_play >= r_wall2 - 5) and (t_play <= t_wall2 + 5 and r_play >= r_wall - 5)):
+            if lr.clipline(stop_line) and ((t_play <= t_wall + 5 and l_play <= l_wall2 + 5) and (
+                    t_play <= t_wall2 + 5 and l_play <= l_wall + 5)) or (
+                    (t_play <= t_wall + 5 and r_play >= r_wall2 - 5) and (
+                    t_play <= t_wall2 + 5 and r_play >= r_wall - 5)):
                 print("Top LEFT")
                 pass
             else:
 
                 if pressed[pygame.K_UP] or pressed[pygame.K_w]: l_offset += (0, -speed)
-        #         # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
-
+            #         # if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: l_offset += (speed, 0)
 
             # if lr.clipline(stop_line) and ((t_play <= t_wall + 5 and r_play >= r_wall2 - 5) and (t_play <= t_wall2 + 5 and r_play >= r_wall - 5)):
             #     print("Top Right")
@@ -739,7 +770,10 @@ def inside(name):
             #     if pressed[pygame.K_UP] or pressed[pygame.K_UP]: l_offset += (0, -speed)
             #     # if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: l_offset += (-speed, 0)
 
-            if lr.clipline(stop_line) and ((b_play >= b_wall - 5 and r_play >= r_wall2 - 5) and (b_play >= b_wall2 - 5 and r_play >= r_wall - 5)) or ((b_play >= b_wall - 5 and l_play <= l_wall2 + 5) and (b_play >= b_wall2 - 5 and l_play <= l_wall + 5)):
+            if lr.clipline(stop_line) and ((b_play >= b_wall - 5 and r_play >= r_wall2 - 5) and (
+                    b_play >= b_wall2 - 5 and r_play >= r_wall - 5)) or (
+                    (b_play >= b_wall - 5 and l_play <= l_wall2 + 5) and (
+                    b_play >= b_wall2 - 5 and l_play <= l_wall + 5)):
                 print("Bot Right")
 
                 pass
@@ -763,7 +797,6 @@ def inside(name):
 def door():
     total_cam = camera + (-offset)
 
-
     for key in doordictionary:
 
         if (pressed[pygame.K_e]) and (
@@ -772,23 +805,21 @@ def door():
             print("hello!")
             inside(key)
 
-
 # can make this faster by makeing it super long with just if, elif,elif
 def blitty():
     screen.blit(sprites.get("tree_strom"), (camera))
     screen.blit(sprites.get("bridge"), camera + (2151.8, 1432.6))
     # screen.blit(sm_river, camera + (550, 1020))
 
-    if camera[1] - offset[1] >215:
-
+    if camera[1] - offset[1] > 215:
         player()
     screen.blit(sprites.get("well"), camera + (1815.4, 17.4))
 
-    if camera[1] - offset[1] <=215 and camera[1] - offset[1] > 130:
+    if camera[1] - offset[1] <= 215 and camera[1] - offset[1] > 130:
         player()
     screen.blit(sprites.get("mush_house"), camera + (1502.2, 0))
 
-    if camera[1]-offset[1] <=130 and camera[1] >-25:
+    if camera[1] - offset[1] <= 130 and camera[1] > -25:
         player()
     screen.blit(sprites.get("sign"), camera + (2476.6, 203))
     if camera[1] - offset[1] <= -25 and camera[1] > -460:
@@ -809,17 +840,17 @@ def blitty():
     if camera[1] <= -1755 and camera[1] > -2135:
         player()
     screen.blit(sprites.get("black_house"), camera + (1769, 2076.4))
-    if camera[1] <= -2135 and camera[1]-offset[1] > -2165:
+    if camera[1] <= -2135 and camera[1] - offset[1] > -2165:
         player()
     screen.blit(sprites.get("treehouse"), camera + (127.6, 2088))
-    if camera[1]-offset[1] <= -2165:
+    if camera[1] - offset[1] <= -2165:
         player()
     # if True:
     #     player()
     screen.blit(sprites.get("inventory"), (324, 506))
 
-startscreen(sprites)
 
+startscreen(sprites)
 
 running = True
 while running:
@@ -829,13 +860,13 @@ while running:
             running = False
 
     pressed = pygame.key.get_pressed()
-    # player()        
-            
+    # player()
+
     # Color of the screen, RGB
     print(-camera - offset)
     # Camera vector
     camera_move = pygame.Vector2()
-
+    screen.blit(background, (camera))
 
     # If step has gone thorugh all of the animation go back to start
     if f_step >= len(fwd_ani):
@@ -849,7 +880,7 @@ while running:
 
     blitty()
 
-    bush1= pygame.Rect (camera[0] + 2421.8, camera[1]+ 1102.6, 350, 250)
+    bush1 = pygame.Rect(camera[0] + 2421.8, camera[1] + 1102.6, 350, 250)
     if pressed[pygame.K_e] and bush1.collidepoint(pygame.mouse.get_pos()) and done1b == False:
         bush1blity = False
         blueberries = True
@@ -857,14 +888,14 @@ while running:
         done1b = True
     if bush1blity:
         screen.blit(sprites.get("blueberriesbush"), camera + (2421.8, 1102.6))
-    bush2= pygame.Rect (camera[0] + 47.6, camera[1]+ 2288, 350, 250)
+    bush2 = pygame.Rect(camera[0] + 47.6, camera[1] + 2288, 350, 250)
     if pressed[pygame.K_e] and bush2.collidepoint(pygame.mouse.get_pos()) and done2b == False:
         bush2blity = False
         blueberries = True
         bluenum = bluenum + 1
     if bush2blity:
         screen.blit(sprites.get("blueberriesnew"), camera + (47.6, 2258))
-    bush3= pygame.Rect (camera[0] + 1201, camera[1]+ 392.6, 350, 250)
+    bush3 = pygame.Rect(camera[0] + 1201, camera[1] + 392.6, 350, 250)
     if pressed[pygame.K_e] and bush3.collidepoint(pygame.mouse.get_pos()) and done3b == False:
         bush3blity = False
         blueberries = True
@@ -872,7 +903,7 @@ while running:
     if bush3blity:
         screen.blit(sprites.get("blueberriesbush"), camera + (1201.8, 382.6))
 
-    tree1= pygame.Rect (camera[0] + 490, camera[1]+ 7, 350, 250)
+    tree1 = pygame.Rect(camera[0] + 490, camera[1] + 7, 350, 250)
     if pressed[pygame.K_e] and tree1.collidepoint(pygame.mouse.get_pos()) and done1t == False:
         tree1blity = False
         apple = True
@@ -880,7 +911,7 @@ while running:
         done1t = True
     if tree1blity:
         screen.blit(sprites.get("applestree"), camera + (460, 7))
-    tree2= pygame.Rect (camera[0] + 705, camera[1]+ 1440, 350, 250)
+    tree2 = pygame.Rect(camera[0] + 705, camera[1] + 1440, 350, 250)
     if pressed[pygame.K_e] and tree2.collidepoint(pygame.mouse.get_pos()) and done2t == False:
         tree2blity = False
         apple = True
@@ -888,7 +919,7 @@ while running:
         done2t = True
     if tree2blity:
         screen.blit(sprites.get("applestree"), camera + (675, 1440))
-    tree3= pygame.Rect (camera[0] + 1350, camera[1]+ 850, 350, 250)
+    tree3 = pygame.Rect(camera[0] + 1350, camera[1] + 850, 350, 250)
     if pressed[pygame.K_e] and tree3.collidepoint(pygame.mouse.get_pos()) and done3t == False:
         tree3blity = False
         apple = True
@@ -897,20 +928,20 @@ while running:
     if tree3blity:
         screen.blit(sprites.get("applestree"), camera + (1320, 850))
 
-    gem1= pygame.Rect (camera[0] + 1740, camera[1]+ 880, 150, 250)
+    gem1 = pygame.Rect(camera[0] + 1740, camera[1] + 880, 150, 250)
     if pressed[pygame.K_e] and gem1.collidepoint(pygame.mouse.get_pos()) and done1g == False:
         jewelone = True
         done1g = True
-    gem2= pygame.Rect (camera[0] + 1820, camera[1]+ 1, 150, 190)
+    gem2 = pygame.Rect(camera[0] + 1820, camera[1] + 1, 150, 190)
     if pressed[pygame.K_e] and gem2.collidepoint(pygame.mouse.get_pos()) and done2g == False:
         jeweltwo = True
         done2g = True
-    gem3= pygame.Rect (camera[0] + 2260, camera[1]+ 1970, 150, 190)
+    gem3 = pygame.Rect(camera[0] + 2260, camera[1] + 1970, 150, 190)
     if pressed[pygame.K_e] and gem3.collidepoint(pygame.mouse.get_pos()) and done3g == False:
         jewelthree = True
         done3g = True
 
-    laddr= pygame.Rect (camera[0] + 1600, camera[1]+ 370, 100, 250)
+    laddr = pygame.Rect(camera[0] + 1600, camera[1] + 370, 100, 250)
 
     if pressed[pygame.K_e] and laddr.collidepoint(pygame.mouse.get_pos()) and ladder == True:
         ladderblity = True
@@ -919,7 +950,7 @@ while running:
 
     if bluenum == 1:
         blueberries = True
-    print (bluenum)
+    print(bluenum)
 
     if blueberries:
         screen.blit(sprites.get("blueberries"), (324, 506))
@@ -959,18 +990,17 @@ while running:
     s = pygame.Rect(275 + camera[0], 680 + camera[1], 200, 85)
     # -35.0 (Left Side) -400.0 - (Highest)
     # ph =  pygame.Rect(-845, 1010, 350, 150)
-    ph = pygame.Rect(1375+ camera[0], 1375 + camera[1], 340, 80)
+    ph = pygame.Rect(1375 + camera[0], 1375 + camera[1], 340, 80)
     sh = pygame.Rect(560 + camera[0], 770 + camera[1], 295, 60)
     wh = pygame.Rect(1525 + camera[0], 155 + camera[1], 255, 20)  # [-1260.0,-995.0],[125.0,215.0]],
     h1 = pygame.Rect(2160 + camera[0], 960 + camera[1], 330, 100)
-    bh = pygame.Rect(1780 + camera[0],2370 + camera[1],580,70)# [-1965.0,-1635.0],[-765.0,-595.0]],
-    th = pygame.Rect(260+ camera[0], 2435+camera[1], 140, 35)
-    si = pygame.Rect(2480+camera[0], 325+camera[1], 270, 1)
-    tw = pygame.Rect(1810 +camera[0], 85 + camera[1], 115,1)
+    bh = pygame.Rect(1780 + camera[0], 2370 + camera[1], 580, 70)  # [-1965.0,-1635.0],[-765.0,-595.0]],
+    th = pygame.Rect(260 + camera[0], 2435 + camera[1], 140, 35)
+    si = pygame.Rect(2480 + camera[0], 325 + camera[1], 270, 1)
+    tw = pygame.Rect(1810 + camera[0], 85 + camera[1], 115, 1)
     mw = pygame.Rect(1760 + camera[0], 1015 + camera[1], 115, 1)
     bw = pygame.Rect(2290 + camera[0], 2055 + camera[1], 105, 1)
     rr = pygame.Rect(550 + camera[0], 1020 + camera[1], 2190, 1725)
-
 
     boarders = {
         # [camera[0],camera[0]+50],[camera[1],camera[1]+80]],
@@ -990,9 +1020,9 @@ while running:
 
     # x 1.6272189349112426035502958579882
     # y 1.3613861386138613861386138613861
-    r = pygame.Rect(510+offset[0], 300+offset[1], 30, 80)
+    r = pygame.Rect(510 + offset[0], 300 + offset[1], 30, 80)
     # pygame.draw.rect(screen, color1, h1)
-    pygame.draw.rect(screen, color,r)
+    pygame.draw.rect(screen, color, r)
     # pygame.draw.rect(screen, color, ph)
     # pygame.draw.rect(screen, color, sh)
     # pygame.draw.rect(screen, color1, s)
@@ -1006,7 +1036,6 @@ while running:
     # pygame.draw.rect(screen, color1, rr)
 
     if len(r.collidedictall(boarders, rect_values)) != 0:
-
         l_wall = r.collidedictall(boarders, rect_values)[0][1].left
         r_wall = r.collidedictall(boarders, rect_values)[0][1].right
         b_wall = r.collidedictall(boarders, rect_values)[0][1].bottom
@@ -1018,10 +1047,8 @@ while running:
 
     # Collisions
 
-
-
     # can make this faster by converting if to elif.
-    if len(r.collidedictall(boarders, rect_values)) != 0 and b_play <= t_wall+5:
+    if len(r.collidedictall(boarders, rect_values)) != 0 and b_play <= t_wall + 5:
 
         pass
     else:
@@ -1030,7 +1057,7 @@ while running:
         elif offset[1] >= -2300:
             if pressed[pygame.K_DOWN] or pressed[pygame.K_s]: offset += (0, speed)
 
-    if len(r.collidedictall(boarders, rect_values)) != 0 and r_play <= l_wall+5:
+    if len(r.collidedictall(boarders, rect_values)) != 0 and r_play <= l_wall + 5:
         pass
     else:
 
@@ -1039,7 +1066,7 @@ while running:
         elif offset[0] >= -1890:
             if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]: offset += (speed, 0)
 
-    if len(r.collidedictall(boarders, rect_values)) != 0 and (t_play >= b_wall-5):
+    if len(r.collidedictall(boarders, rect_values)) != 0 and (t_play >= b_wall - 5):
         pass
     else:
 
@@ -1048,29 +1075,25 @@ while running:
         elif offset[1] <= 0 or (camera[1] == -2300 and offset != 0):
             if pressed[pygame.K_UP] or pressed[pygame.K_w]: offset += (0, -speed)
 
-    if len(r.collidedictall(boarders, rect_values)) != 0 and (l_play >= r_wall-5):
+    if len(r.collidedictall(boarders, rect_values)) != 0 and (l_play >= r_wall - 5):
 
         pass
     else:
         if camera[0] != 0 and offset[0] == 0:
             if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: camera_move += (speed, 0)
         elif offset[0] <= 0 or (camera[0] == -1890 and offset != 0):
-            if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:offset += (-speed, 0)
-
+            if pressed[pygame.K_LEFT] or pressed[pygame.K_a]: offset += (-speed, 0)
 
     # River collision using Bit Masking cause I have a Fivehead
     # pygame.sprite.spritecollide(player(),sm_river, False, pygame.sprite.collide_mask())
-
 
     # print(cant_swim)
     camera += camera_move
     cant_swim = pygame.sprite.collide_mask(Riva(sm_river, river_mask, rr), Playa(player, player_mask, r))
 
-
     # cheap trash solution.takeing slightly to long cus my barin is slow rn
     if cant_swim:
-        camera -= camera_move*2.5
-
+        camera -= camera_move * 2.5
 
     door()
 
